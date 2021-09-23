@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import Tour from "../Tour";
 
-const Tours = ({ tours }) => {
+const Tours = ({ tours, removeTour }) => {
   return (
     <Container>
       {tours.map((tour, i) => (
-        <Tour key={i} tour={tour} />
+        <Tour key={i} tour={tour} removeTour={removeTour} />
       ))}
     </Container>
   );
@@ -16,6 +16,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 475px;
 `;
 
 export default Tours;
