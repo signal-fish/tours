@@ -1,51 +1,54 @@
-import {useState, useEffect} from 'react' 
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-import Loading from './components/Loading';
+import Loading from "./components/Loading";
 import Tours from "./components/Tours";
 
 const url = "https://course-api.com/react-tours-project";
 
 const App = () => {
-  // const [tours, setTours] = useState([])
+  const [loading, setLoading] = useState(true);
+  const [tours, setTours] = useState([]);
 
-  // const fetchTours = async () => {
-  //   try {
-  //     const response = await fetch(url)
-  //     const tours = await response.json()
-  //     console.log(tours)
-  //     setTours(tours)
-  //   } catch (error) {
-  //     console.log(error)
-  //   } 
-  // }
-  
-  // useEffect(() => {
-  //   fetchTours();
-  // }, []);
+  const fetchTours = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(url);
+      const tours = await response.json();
+      setLoading(false);
+      setTours(tours);
+    } catch (error) {
+      setLoading(false)
+      console.log(error);
+    }
+  };
 
-  // const removeTour = (id) => {
-  //   const newTours = tours.filter((tour) => tour.id !== id)
-  //   setTours(newTours)
-  // }
+  useEffect(() => {
+    fetchTours();
+  }, []);
 
-  // if (tours.length === 0) {
-  //   return (
-  //     <Container>
-  //       <Title>No Tours Left</Title>
-  //       <Button onClick={() => fetchTours()}>Refresh</Button>
-  //     </Container>
-  //   );
-  // }
-  // return (
-  //   <Container>
-  //     <Title>Tours</Title>
-  //     <Tours tours={tours} removeTour={removeTour}></Tours>
-  //   </Container>
-  // );
+  const removeTour = (id) => {
+    const newTours = tours.filter((tour) => tour.id !== id);
+    setTours(newTours);
+  };
 
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (tours.length === 0) {
+    return (
+      <Container>
+        <Title>No Tours Left</Title>
+        <Button onClick={() => fetchTours()}>Refresh</Button>
+      </Container>
+    );
+  }
   return (
-    <Loading/>
-  )
+    <Container>
+      <Title>Tours</Title>
+      <Tours tours={tours} removeTour={removeTour}></Tours>
+    </Container>
+  );
 };
 
 const Container = styled.div`
