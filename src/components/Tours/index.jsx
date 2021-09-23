@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Tour from "../Tour";
+import {mobile} from '../../responsive'
 
 const Tours = ({ tours, removeTour }) => {
   return (
@@ -17,6 +18,10 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   width: 475px;
+
+  ${mobile({
+  width: "90vw",
+  })}
 `;
 
 export default Tours;
